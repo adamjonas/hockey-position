@@ -250,11 +250,12 @@ function showLevels() {
 
     // Tier header
     const header = document.createElement("div");
-    header.className = "tier-header";
+    header.className = "tier-header" + (unlocked ? "" : " locked");
+    header.setAttribute("data-tier", tier);
     header.style.cssText = "grid-column: 1 / -1; margin-top: 1.2rem; margin-bottom: 0.4rem;";
 
     const tierTitle = document.createElement("h3");
-    tierTitle.style.cssText = "font-size: 1.3rem; color: #6c5ce7; display: flex; align-items: center; gap: 0.5rem;";
+    tierTitle.style.cssText = "display: flex; align-items: center; gap: 0.5rem;";
     tierTitle.textContent = TIER_LABELS[tier];
     if (!unlocked) {
       const lockIcon = document.createElement("span");
@@ -278,10 +279,10 @@ function showLevels() {
     indices.forEach(i => {
       const s = SCENARIOS[i];
       const tile = document.createElement("div");
-      tile.className = "level-tile" + (starsByLevel[i] > 0 ? " completed" : "");
+      tile.className = "level-tile" + (starsByLevel[i] > 0 ? " completed" : "") + (unlocked ? "" : " locked");
+      tile.setAttribute("data-tier", tier);
 
       if (!unlocked) {
-        tile.style.cssText = "opacity: 0.45; pointer-events: none; filter: grayscale(0.6);";
       }
 
       const st = starStr(starsByLevel[i]);
@@ -774,17 +775,56 @@ function nextLevel() {
     // Next scenario within the same tier
     loadLevel(tierIndices[posInTier + 1]);
   } else {
-    // Last in the tier — celebrate and go to level select
-    // (where the next tier may now be unlocked)
+    // Last in the tier — celebrate!
     const allComplete = starsByLevel.every(s => s >= 1);
     if (allComplete) {
       showComplete();
     } else {
-      showToast("Tier Complete! 🎉");
-      spawnConfetti();
-      showLevels();
+      // Check which tier was just unlocked
+      const tierIdx = TIER_ORDER.indexOf(tier);
+      const nextTier = tierIdx < TIER_ORDER.length - 1 ? TIER_ORDER[tierIdx + 1] : null;
+
+      if (nextTier && canUnlock(nextTier)) {
+        showTierUnlock(nextTier);
+      } else {
+        spawnConfetti();
+        showLevels();
+      }
     }
   }
+}
+
+// ══════════ TIER UNLOCK CELEBRATION ══════════
+const TIER_UNLOCK_DATA = {
+  intermediate: {
+    icon: "🔥",
+    title: "INTERMEDIATE UNLOCKED!",
+    text: "You nailed the basics! Now it's time to read the play — these scenarios are trickier, but you're ready!",
+  },
+  advanced: {
+    icon: "⚡",
+    title: "ADVANCED UNLOCKED!",
+    text: "You're a positioning pro! Time for the real game situations — power plays, penalty kills, and odd-man rushes!",
+  },
+};
+
+function showTierUnlock(tier) {
+  const data = TIER_UNLOCK_DATA[tier];
+  if (!data) { showLevels(); return; }
+
+  const overlay = document.getElementById("tier-unlock-overlay");
+  const card = document.getElementById("tier-unlock-card");
+
+  document.getElementById("tier-unlock-icon").textContent = data.icon;
+  document.getElementById("tier-unlock-title").textContent = data.title;
+  document.getElementById("tier-unlock-text").textContent = data.text;
+
+  // Set tier-specific styling
+  card.className = "tier-unlock-card tier-" + tier;
+
+  overlay.classList.add("show");
+  spawnConfetti();
+  playGoalHornSound();
 }
 
 // ══════════ VIDEO ══════════
@@ -899,6 +939,12 @@ document.querySelectorAll("#feedback-overlay .btn-video").forEach(btn => {
 // Video close button
 document.querySelectorAll(".video-close").forEach(btn => {
   btn.addEventListener("click", closeVideo);
+});
+
+// Tier unlock celebration button
+document.getElementById("tier-unlock-btn").addEventListener("click", () => {
+  document.getElementById("tier-unlock-overlay").classList.remove("show");
+  showLevels();
 });
 
 // Completion screen buttons

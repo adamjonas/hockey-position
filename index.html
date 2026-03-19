@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hockey Position Hero</title>
 <meta name="description" content="Learn where to be on the ice! Interactive hockey positioning game for kids.">
-<meta name="theme-color" content="#e84393">
+<meta name="theme-color" content="#2471a3">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon.svg">
@@ -50,21 +50,6 @@
     <div class="stars-container" id="stars-display"></div>
   </div>
 
-  <div class="scenario-card">
-    <h2 id="scenario-title"></h2>
-    <div class="coach-says">
-      <div class="coach-icon">🏒</div>
-      <div id="scenario-desc"></div>
-    </div>
-  </div>
-
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot you-dot"></div> You</div>
-    <div class="legend-item"><div class="legend-dot team-dot"></div> Teammate</div>
-    <div class="legend-item"><div class="legend-dot opp-dot"></div> Other Team</div>
-    <div class="legend-item"><div class="legend-dot puck-dot"></div> Has Puck</div>
-  </div>
-
   <div class="rink-wrapper" id="rink">
     <div class="rink-markings">
       <div class="center-line"></div>
@@ -88,6 +73,21 @@
       <div class="crease right"></div>
     </div>
     <div class="rink-toast" id="rink-toast"></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot you-dot"></div> You</div>
+    <div class="legend-item"><div class="legend-dot team-dot"></div> Teammate</div>
+    <div class="legend-item"><div class="legend-dot opp-dot"></div> Other Team</div>
+    <div class="legend-item"><div class="legend-dot puck-dot"></div> Has Puck</div>
+  </div>
+
+  <div class="scenario-card">
+    <h2 id="scenario-title"></h2>
+    <div class="coach-says">
+      <div class="coach-icon">🏒</div>
+      <div id="scenario-desc"></div>
+    </div>
   </div>
 
   <div class="check-btn-row">
@@ -122,6 +122,16 @@
       <button class="btn btn-video btn-sm" id="fb-video">Watch Real Hockey</button>
       <button class="btn btn-next btn-sm" id="fb-next">Next Challenge</button>
     </div>
+  </div>
+</div>
+
+<!-- TIER UNLOCK CELEBRATION -->
+<div class="tier-unlock-overlay" id="tier-unlock-overlay">
+  <div class="tier-unlock-card" id="tier-unlock-card">
+    <div class="unlock-icon" id="tier-unlock-icon"></div>
+    <h2 id="tier-unlock-title"></h2>
+    <p id="tier-unlock-text"></p>
+    <button class="btn btn-play" id="tier-unlock-btn" style="font-size:1.2rem;">Let's Go!</button>
   </div>
 </div>
 
