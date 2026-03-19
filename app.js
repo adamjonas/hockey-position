@@ -373,7 +373,7 @@ function renderRink(scenario) {
   tz.className = "target-zone";
   tz.id = "target-zone";
   tz.style.left = (scenario.target.x - scenario.target.radius) + "%";
-  tz.style.top = (scenario.target.y - scenario.target.radius) + "%";
+  tz.style.top = (scenario.target.y - scenario.target.radius * 2) + "%";
   tz.style.width = (scenario.target.radius * 2) + "%";
   tz.style.height = (scenario.target.radius * 2 * 2) + "%"; // doubled for aspect ratio
   rink.appendChild(tz);
