@@ -297,11 +297,12 @@ body {
 .feedback-card .btn-row { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
 .feedback-card kbd {
   display: inline-block; font-family: 'Fredoka', system-ui, sans-serif;
-  font-size: 0.7rem; font-weight: 400;
-  background: rgba(255,255,255,0.25); border-radius: 4px;
-  padding: 0.1rem 0.4rem; margin-left: 0.3rem;
-  border: 1px solid rgba(255,255,255,0.3);
+  font-size: 0.65rem; font-weight: 400;
+  background: rgba(0,0,0,0.15); border-radius: 4px;
+  padding: 0.15rem 0.4rem; margin-left: 0.4rem;
+  border: 1px solid rgba(0,0,0,0.15);
   vertical-align: middle; text-transform: uppercase; letter-spacing: 0.05em;
+  opacity: 0.8;
 }
 
 /* ── Video Modal ── */
