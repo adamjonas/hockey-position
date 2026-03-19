@@ -1111,6 +1111,17 @@ document.addEventListener("keydown", e => {
       document.getElementById("feedback-overlay").classList.remove("show");
     }
   }
+
+  // Feedback overlay shortcuts
+  if (document.getElementById("feedback-overlay").classList.contains("show")) {
+    if (e.key === " ") {
+      e.preventDefault();
+      showVideo();
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      nextLevel();
+    }
+  }
 });
 
 // Click outside video modal to close
