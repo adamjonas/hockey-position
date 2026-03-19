@@ -295,6 +295,14 @@ body {
 .feedback-card h3 { font-size: 1.6rem; margin-bottom: 0.5rem; color: var(--rink-line-blue); }
 .feedback-card p { font-size: 1.05rem; color: #636e72; line-height: 1.5; margin-bottom: 1.2rem; }
 .feedback-card .btn-row { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+.feedback-card kbd {
+  display: inline-block; font-family: 'Fredoka', system-ui, sans-serif;
+  font-size: 0.7rem; font-weight: 400;
+  background: rgba(255,255,255,0.25); border-radius: 4px;
+  padding: 0.1rem 0.4rem; margin-left: 0.3rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  vertical-align: middle; text-transform: uppercase; letter-spacing: 0.05em;
+}
 
 /* ── Video Modal ── */
 .video-modal {
