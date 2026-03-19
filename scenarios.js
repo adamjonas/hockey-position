@@ -74,11 +74,12 @@ const SCENARIOS = [
       "There's open ice near the far side of the offensive zone — away from the defenders!",
     ],
     video: { id: "bWwTOPsHy_I", title: "How Wings Can Get Open", caption: "Watch how wingers move to open spots on the ice so their teammates can pass to them — it's like finding the empty chair in musical chairs." },
+    endsWithGoal: true,
     playSequence: [
       { target: "puck", toX: 72, toY: 38, delay: 0 },
       { target: "you", toX: 78, toY: 35, delay: 500 },
       { target: "puck", toX: 85, toY: 45, delay: 1000 },
-      { target: "puck", toX: 88, toY: 50, delay: 1400 },
+      { target: "puck", toX: 90, toY: 50, delay: 1400 },
     ],
   },
 
@@ -226,12 +227,13 @@ const SCENARIOS = [
       "Your teammates are low-left and low-right... the triangle point goes higher up, near the blue line area!",
     ],
     video: { id: "CfrkHKZ94CM", title: "Offensive Zone Triangle", caption: "Watch how three forwards form a triangle shape and rotate positions to confuse the defense and create open passing lanes." },
+    endsWithGoal: true,
     playSequence: [
       { target: "puck", toX: 72, toY: 50, delay: 0 },
       { target: "you", toX: 75, toY: 48, delay: 400 },
       { target: "puck", toX: 78, toY: 32, delay: 800 },
       { target: "team-LW", toX: 82, toY: 30, delay: 1000 },
-      { target: "puck", toX: 86, toY: 48, delay: 1400 },
+      { target: "puck", toX: 90, toY: 50, delay: 1400 },
     ],
   },
 
@@ -384,12 +386,13 @@ const SCENARIOS = [
       "Get to the half-wall — that's the boards area about halfway between the goal line and the blue line on your side!",
     ],
     video: { id: "dr3ECi9N2-E", title: "Cycling Basics", caption: "Watch how forwards pass the puck along the boards in the corner and then rotate positions to keep the puck away from the other team." },
+    endsWithGoal: true,
     playSequence: [
       { target: "puck", toX: 68, toY: 25, delay: 0 },
       { target: "you", toX: 72, toY: 28, delay: 400 },
       { target: "puck", toX: 75, toY: 40, delay: 800 },
       { target: "puck", toX: 82, toY: 48, delay: 1200 },
-      { target: "puck", toX: 88, toY: 50, delay: 1600 },
+      { target: "puck", toX: 90, toY: 50, delay: 1600 },
     ],
   },
 
@@ -460,12 +463,13 @@ const SCENARIOS = [
       "Stay near the blue line, in the middle of the ice — you're the safety valve if things get tight down low!",
     ],
     video: { id: "CfrkHKZ94CM", title: "Offensive Zone Triangle", caption: "Watch how the high forward stays near the blue line as part of the triangle — they're the safety valve if things get crowded down low." },
+    endsWithGoal: true,
     playSequence: [
       { target: "puck", toX: 65, toY: 50, delay: 0 },
       { target: "you", toX: 68, toY: 48, delay: 400 },
       { target: "puck", toX: 80, toY: 30, delay: 800 },
       { target: "team-LW", toX: 82, toY: 35, delay: 1000 },
-      { target: "puck", toX: 86, toY: 48, delay: 1400 },
+      { target: "puck", toX: 90, toY: 50, delay: 1400 },
     ],
   },
 
@@ -535,13 +539,14 @@ const SCENARIOS = [
       "Get right in front of the opponent's net — as close as you can! That's where rebounds and tips happen!",
     ],
     video: { id: "bWwTOPsHy_I", title: "How Wings Can Get Open", caption: "Watch how forwards park themselves right in front of the net to tip shots and grab rebounds — the goalie can't see past you!" },
+    endsWithGoal: true,
     playSequence: [
       { target: "puck", toX: 65, toY: 22, delay: 0 },
       { target: "team-LD", toX: 66, toY: 24, delay: 200 },
       { target: "puck", toX: 85, toY: 48, delay: 600 },
       { target: "puck", toX: 82, toY: 50, delay: 800 },
       { target: "you", toX: 84, toY: 48, delay: 1000 },
-      { target: "puck", toX: 88, toY: 50, delay: 1200 },
+      { target: "puck", toX: 90, toY: 50, delay: 1200 },
     ],
   },
 
@@ -574,12 +579,13 @@ const SCENARIOS = [
       "Drive wide toward the boards on your side and get ahead of the puck — make the defense choose who to cover!",
     ],
     video: { id: "Wkc3mHT7BE8", title: "Breakout Tactics for Wings", caption: "Watch how the wide winger drives to the net on a rush, giving the puck carrier a pass option and creating space." },
+    endsWithGoal: true,
     playSequence: [
       { target: "team-C", toX: 68, toY: 48, delay: 0 },
       { target: "puck", toX: 72, toY: 20, delay: 400 },
       { target: "you", toX: 78, toY: 22, delay: 600 },
       { target: "puck", toX: 82, toY: 35, delay: 1000 },
-      { target: "puck", toX: 88, toY: 50, delay: 1400 },
+      { target: "puck", toX: 90, toY: 50, delay: 1400 },
     ],
   },
 
@@ -692,6 +698,7 @@ const SCENARIOS = [
       "Stay on the opposite side from the defenseman, wide near the boards. Give your teammate a clear pass!",
     ],
     video: { id: "Y_NLV-E73RQ", title: "2-on-1 Offense and Defense", caption: "Watch what to do on a 2-on-1 rush — spread apart from your teammate and call for the pass to give the defender an impossible choice." },
+    endsWithGoal: true,
     playSequence: [
       { target: "opp-LW", toX: 28, toY: 55, delay: 0 },
       { target: "puck", toX: 28, toY: 60, delay: 400 },
@@ -699,6 +706,7 @@ const SCENARIOS = [
       { target: "puck", toX: 45, toY: 45, delay: 800 },
       { target: "team-C", toX: 55, toY: 35, delay: 1000 },
       { target: "puck", toX: 70, toY: 30, delay: 1400 },
+      { target: "puck", toX: 90, toY: 50, delay: 1800 },
     ],
   },
 
@@ -731,13 +739,14 @@ const SCENARIOS = [
       "Drive to the net from your wing! Get to the top side near the net — the defenders can't cover three lanes!",
     ],
     video: { id: "58YEw9bFiXU", title: "Odd Man Rush 3v2", caption: "Watch how three forwards fill the three lanes on a rush and the middle player decides whether to shoot or pass based on what the defenders do." },
+    endsWithGoal: true,
     playSequence: [
       { target: "team-C", toX: 68, toY: 48, delay: 0 },
       { target: "team-RW", toX: 72, toY: 70, delay: 200 },
       { target: "you", toX: 78, toY: 25, delay: 400 },
       { target: "puck", toX: 75, toY: 22, delay: 800 },
       { target: "puck", toX: 85, toY: 40, delay: 1200 },
-      { target: "puck", toX: 88, toY: 50, delay: 1600 },
+      { target: "puck", toX: 90, toY: 50, delay: 1600 },
     ],
   },
 
@@ -769,12 +778,13 @@ const SCENARIOS = [
       "Get to the blue line area on your side (top of the zone). That's the top of the umbrella shape!",
     ],
     video: { id: "QKhE3UAzhqo", title: "Powerplay Setups Explained", caption: "Watch the three main power play formations and see how players spread out to move the puck around the penalty killers for a good shot." },
+    endsWithGoal: true,
     playSequence: [
       { target: "puck", toX: 65, toY: 25, delay: 0 },
       { target: "you", toX: 66, toY: 28, delay: 400 },
       { target: "puck", toX: 80, toY: 30, delay: 800 },
       { target: "team-LW", toX: 82, toY: 32, delay: 1000 },
-      { target: "puck", toX: 86, toY: 48, delay: 1400 },
+      { target: "puck", toX: 90, toY: 50, delay: 1400 },
     ],
   },
 
@@ -845,13 +855,14 @@ const SCENARIOS = [
       "Approach from the inside (middle) so you push them toward the boards. You want to be between them and center ice!",
     ],
     video: { id: "cOR--Fi5KoU", title: "Forechecking: Dog, Fox, Hawk", caption: "Watch how the first forward (the Dog) chases the puck carrier and angles them toward the boards to force a turnover." },
+    endsWithGoal: true,
     playSequence: [
       { target: "you", toX: 83, toY: 28, delay: 0 },
       { target: "opp-LD", toX: 82, toY: 18, delay: 300 },
       { target: "team-C", toX: 75, toY: 30, delay: 600 },
       { target: "puck", toX: 75, toY: 30, delay: 800 },
       { target: "puck", toX: 82, toY: 48, delay: 1200 },
-      { target: "puck", toX: 88, toY: 50, delay: 1600 },
+      { target: "puck", toX: 90, toY: 50, delay: 1600 },
     ],
   },
 
@@ -884,13 +895,14 @@ const SCENARIOS = [
       "Get between the two defensemen (the one with the puck and the other one). Don't let them pass across!",
     ],
     video: { id: "cOR--Fi5KoU", title: "Forechecking: Dog, Fox, Hawk", caption: "Watch how the second forward (the Fox) reads where the puck is going and cuts off the escape pass while the first forward pressures." },
+    endsWithGoal: true,
     playSequence: [
       { target: "team-LW", toX: 84, toY: 22, delay: 0 },
       { target: "you", toX: 80, toY: 48, delay: 200 },
       { target: "opp-LD", toX: 83, toY: 18, delay: 400 },
       { target: "puck", toX: 80, toY: 48, delay: 800 },
       { target: "you", toX: 82, toY: 45, delay: 1000 },
-      { target: "puck", toX: 86, toY: 50, delay: 1400 },
+      { target: "puck", toX: 90, toY: 50, delay: 1400 },
     ],
   },
 

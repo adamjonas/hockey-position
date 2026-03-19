@@ -173,6 +173,28 @@ function playBuzzerSound() {
   osc.stop(audioCtx.currentTime + 0.2);
 }
 
+function playGoalHornSound() {
+  if (!audioCtx) return;
+  // Goal horn: low brass tone that swells and sustains
+  const duration = 1.5;
+  for (let i = 0; i < 3; i++) {
+    const osc = audioCtx.createOscillator();
+    osc.type = "sawtooth";
+    osc.frequency.value = 110 + i * 5; // slightly detuned for thickness
+
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.15);
+    gain.gain.setValueAtTime(0.12, audioCtx.currentTime + duration - 0.3);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + duration);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  }
+}
+
 // ══════════ SCREENS ══════════
 function showScreen(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
@@ -575,7 +597,37 @@ function animatePlaySequence(scenario) {
 function getAnimationDuration(scenario) {
   if (!scenario.playSequence || !scenario.playSequence.length) return 0;
   const lastDelay = Math.max(...scenario.playSequence.map(s => s.delay));
-  return lastDelay + 600; // 600ms for the CSS transition
+  // Add extra time for goal celebration if applicable
+  const goalExtra = scenario.endsWithGoal ? 1200 : 0;
+  return lastDelay + 600 + goalExtra; // 600ms for the CSS transition
+}
+
+// ══════════ GOAL CELEBRATION ══════════
+function showGoalCelebration() {
+  playGoalHornSound();
+
+  // Flash the rink red briefly
+  const rinkEl = document.getElementById("rink");
+  rinkEl.style.transition = "box-shadow 0.2s ease";
+  rinkEl.style.boxShadow = "inset 0 0 80px rgba(255,0,0,0.4), 0 0 40px rgba(255,0,0,0.3)";
+
+  // Show GOAL! text overlay on the rink
+  const goalOverlay = document.createElement("div");
+  goalOverlay.className = "goal-overlay";
+  goalOverlay.textContent = "GOAL!";
+  rinkEl.appendChild(goalOverlay);
+
+  // Animate it in
+  requestAnimationFrame(() => {
+    goalOverlay.classList.add("show");
+  });
+
+  // Clean up after celebration
+  setTimeout(() => {
+    rinkEl.style.boxShadow = "";
+    goalOverlay.classList.remove("show");
+    setTimeout(() => goalOverlay.remove(), 500);
+  }, 2000);
 }
 
 // ══════════ TOAST HELPER ══════════
@@ -631,7 +683,15 @@ function checkPosition() {
         animatePlaySequence(s);
       }, 800);
 
-      // Fire confetti AFTER the play animation completes (~2s after animation start)
+      // If offensive scenario, show GOAL! celebration after puck hits the net
+      if (s.endsWithGoal) {
+        const lastPuckDelay = Math.max(...s.playSequence.filter(st => st.target === "puck").map(st => st.delay));
+        setTimeout(() => {
+          showGoalCelebration();
+        }, 800 + lastPuckDelay + 600);
+      }
+
+      // Fire confetti AFTER the play animation (and goal celebration) completes
       setTimeout(() => {
         spawnConfetti();
       }, 800 + animDuration + 400);
