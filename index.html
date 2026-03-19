@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hockey Position Hero</title>
+<meta name="description" content="Learn where to be on the ice! Interactive hockey positioning game for kids.">
+<meta name="theme-color" content="#e84393">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TITLE SCREEN -->
+<div id="title-screen" class="screen active">
+  <svg class="title-rink" viewBox="0 0 200 200">
+    <ellipse cx="100" cy="100" rx="90" ry="80" fill="#e8f4f8" stroke="#c0392b" stroke-width="4"/>
+    <line x1="100" y1="20" x2="100" y2="180" stroke="#c0392b" stroke-width="2"/>
+    <line x1="65" y1="20" x2="65" y2="180" stroke="#2471a3" stroke-width="3"/>
+    <line x1="135" y1="20" x2="135" y2="180" stroke="#2471a3" stroke-width="3"/>
+    <circle cx="100" cy="100" r="20" fill="none" stroke="#2471a3" stroke-width="2"/>
+    <circle cx="120" cy="90" r="14" fill="#e84393" stroke="#fff" stroke-width="3"/>
+    <text x="120" y="95" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold" font-family="sans-serif">YOU</text>
+    <circle cx="80" cy="110" r="7" fill="#222"/>
+  </svg>
+  <h1>Hockey Position Hero</h1>
+  <p class="subtitle">Learn where to be on the ice!</p>
+  <button class="btn btn-play" id="btn-start">Let's Play!</button>
+</div>
+
+<!-- LEVEL SELECT -->
+<div id="level-select" class="screen">
+  <h2>Choose a Challenge</h2>
+  <div id="level-grid"></div>
+  <div style="text-align:center; margin-top:1.5rem;">
+    <button class="btn btn-back btn-sm" id="btn-back-title">Back</button>
+  </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="game-screen" class="screen">
+  <div class="game-header">
+    <span class="level-badge" id="level-badge">Level 1</span>
+    <span class="position-badge" id="position-badge"></span>
+    <div class="progress-bar-wrapper">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="stars-container" id="stars-display"></div>
+  </div>
+
+  <div class="scenario-card">
+    <h2 id="scenario-title"></h2>
+    <div class="coach-says">
+      <div class="coach-icon">🏒</div>
+      <div id="scenario-desc"></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot you-dot"></div> You</div>
+    <div class="legend-item"><div class="legend-dot team-dot"></div> Teammate</div>
+    <div class="legend-item"><div class="legend-dot opp-dot"></div> Other Team</div>
+    <div class="legend-item"><div class="legend-dot puck-dot"></div> Has Puck</div>
+  </div>
+
+  <div class="rink-wrapper" id="rink">
+    <div class="rink-markings">
+      <div class="center-line"></div>
+      <div class="blue-line-left"></div>
+      <div class="blue-line-right"></div>
+      <div class="goal-line-left"></div>
+      <div class="goal-line-right"></div>
+      <div class="center-circle"></div>
+      <div class="faceoff-circle tl"></div>
+      <div class="faceoff-circle bl"></div>
+      <div class="faceoff-circle tr"></div>
+      <div class="faceoff-circle br"></div>
+      <div class="faceoff-dot center"></div>
+      <div class="faceoff-dot dtl"></div>
+      <div class="faceoff-dot dbl"></div>
+      <div class="faceoff-dot dtr"></div>
+      <div class="faceoff-dot dbr"></div>
+      <div class="goal left"></div>
+      <div class="goal right"></div>
+      <div class="crease left"></div>
+      <div class="crease right"></div>
+    </div>
+    <div class="rink-toast" id="rink-toast"></div>
+  </div>
+
+  <div class="check-btn-row">
+    <button class="btn btn-check btn-sm" id="btn-check">Check My Position!</button>
+    <button class="btn btn-hint btn-sm" id="btn-hint" style="display:none;">Show Me Where</button>
+    <button class="btn btn-video btn-sm" id="btn-watch">Watch Real Hockey</button>
+    <button class="btn btn-back btn-sm" id="btn-back-levels">All Levels</button>
+  </div>
+</div>
+
+<!-- COMPLETION SCREEN -->
+<div id="complete-screen" class="screen">
+  <h1>Amazing Job!</h1>
+  <p style="font-size:1.3rem;color:#636e72;">You completed all the challenges!</p>
+  <div class="total-stars" id="total-stars"></div>
+  <p style="font-size:1.1rem;color:#636e72;max-width:500px;margin:0 auto 1.5rem;">
+    You really know where to be on the ice now!
+  </p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <button class="btn btn-play" id="btn-play-again" style="font-size:1.2rem;">Play Again</button>
+    <button class="btn btn-video btn-sm" id="btn-pick-level">Pick a Level</button>
+  </div>
+</div>
+
+<!-- FEEDBACK OVERLAY -->
+<div class="feedback-overlay" id="feedback-overlay">
+  <div class="feedback-card">
+    <div class="feedback-icon" id="feedback-icon"></div>
+    <h3 id="feedback-title"></h3>
+    <p id="feedback-text"></p>
+    <div class="btn-row">
+      <button class="btn btn-video btn-sm" id="fb-video">Watch Real Hockey</button>
+      <button class="btn btn-next btn-sm" id="fb-next">Next Challenge</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div class="video-modal" id="video-modal">
+  <div class="video-container">
+    <div class="video-header">
+      <h4 id="video-title">Watch the Pros</h4>
+      <button class="video-close" id="btn-close-video">&#x2715;</button>
+    </div>
+    <div class="video-embed-wrap" id="video-embed-wrap"></div>
+    <div class="video-caption" id="video-caption"></div>
+  </div>
+</div>
+
+<script src="scenarios.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
