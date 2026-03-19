@@ -263,20 +263,20 @@ body {
 }
 .rink-toast.show { opacity: 1; }
 
-/* ── Check button row ── */
+/* ── Back arrow ── */
+.back-arrow {
+  background: none; border: none; font-size: 1.4rem; color: var(--rink-line-blue);
+  cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 8px;
+  font-family: 'Fredoka', system-ui, sans-serif; font-weight: 700;
+  transition: background 0.2s ease;
+}
+.back-arrow:hover { background: rgba(0,0,0,0.05); }
+
+/* ── Hint button row ── */
 .check-btn-row {
   text-align: center; margin-bottom: 0.5rem;
   display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap;
-  align-items: center;
-}
-/* Primary action: Check My Position — big and bold */
-.btn-check {
-  background: linear-gradient(135deg, var(--rink-line-red), var(--rink-red-bright));
-  font-size: 1.2rem; padding: 0.9rem 2.5rem;
-  box-shadow: 0 4px 15px rgba(192,57,43,0.3);
-}
-.btn-check:hover {
-  box-shadow: 0 6px 25px rgba(192,57,43,0.4);
+  align-items: center; min-height: 48px;
 }
 
 /* ── Feedback overlay ── */

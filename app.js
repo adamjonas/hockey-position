@@ -42,6 +42,7 @@ let currentLevel = 0;
 let starsByLevel = new Array(SCENARIOS.length).fill(0);
 let attempts = 0;
 let hintRevealed = false;
+let levelComplete = false;
 
 const rink = document.getElementById("rink");
 
@@ -420,6 +421,7 @@ function loadLevel(idx) {
   currentLevel = idx;
   attempts = 0;
   hintRevealed = false;
+  levelComplete = false;
 
   const s = SCENARIOS[idx];
   const tier = s.tier || "beginner";
@@ -448,7 +450,6 @@ function loadLevel(idx) {
   }
 
   document.getElementById("btn-hint").style.display = "none";
-  document.getElementById("btn-check").style.display = "";
 
   renderStarsHeader();
   renderRink(s);
@@ -572,6 +573,9 @@ function setupDrag(el) {
     document.removeEventListener("mouseup", end);
     document.removeEventListener("touchmove", move);
     document.removeEventListener("touchend", end);
+
+    // Auto-check position on drop
+    checkPosition();
   }
 
   el.addEventListener("mousedown", start);
@@ -830,6 +834,8 @@ function showToast(msg) {
 
 // ══════════ CHECK ══════════
 function checkPosition() {
+  if (levelComplete) return; // Already solved — don't re-check on drag
+
   const dist = getDist();
   const s = SCENARIOS[currentLevel];
   attempts++;
@@ -840,6 +846,7 @@ function checkPosition() {
   if (dist <= s.target.radius) {
     // ── SUCCESS ──
     playCheerSound();
+    levelComplete = true;
 
     const you = document.getElementById("player-you");
     you.classList.add("correct");
@@ -859,8 +866,7 @@ function checkPosition() {
       });
     }, 100);
 
-    // Hide check and hint buttons after success
-    document.getElementById("btn-check").style.display = "none";
+    // Hide hint button after success
     document.getElementById("btn-hint").style.display = "none";
 
     // Sequence: let kid see their correct position (600ms),
@@ -1114,15 +1120,11 @@ document.getElementById("video-modal").addEventListener("click", function (e) {
 
 // Wire up buttons (no inline onclick in HTML)
 document.querySelector("#title-screen .btn-play").addEventListener("click", startGame);
-document.getElementById("btn-check").addEventListener("click", checkPosition);
 document.getElementById("btn-hint").addEventListener("click", revealHint);
-document.getElementById("btn-watch").addEventListener("click", showVideo);
 document.getElementById("fb-next").addEventListener("click", nextLevel);
 
-// "Back" button on game screen — find it among the check-btn-row
-document.querySelectorAll(".check-btn-row .btn-back").forEach(btn => {
-  btn.addEventListener("click", showLevels);
-});
+// Back arrow on game screen
+document.getElementById("btn-back-levels").addEventListener("click", showLevels);
 
 // "Back" button on level select screen
 document.querySelectorAll("#level-select .btn-back").forEach(btn => {
