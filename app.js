@@ -45,6 +45,84 @@ let hintRevealed = false;
 
 const rink = document.getElementById("rink");
 
+// ══════════ LOCALSTORAGE PERSISTENCE ══════════
+const SAVE_KEY = "hockey-hero-progress";
+
+function saveProgress() {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ starsByLevel }));
+  } catch (e) { /* storage full or unavailable — ignore silently */ }
+}
+
+function loadProgress() {
+  try {
+    const data = JSON.parse(localStorage.getItem(SAVE_KEY));
+    if (data && Array.isArray(data.starsByLevel)) {
+      // Restore stars, extending/truncating to match current scenario count
+      for (let i = 0; i < SCENARIOS.length; i++) {
+        starsByLevel[i] = data.starsByLevel[i] || 0;
+      }
+    }
+  } catch (e) { /* corrupted data — start fresh */ }
+}
+
+loadProgress();
+
+// ══════════ ACHIEVEMENT BADGES ══════════
+const BADGES = [
+  {
+    id: "defensive-dynamo",
+    name: "Defensive Dynamo",
+    icon: "🛡️",
+    desc: "Complete all defensive scenarios with 2+ stars",
+    check: () => {
+      const defenseIds = SCENARIOS
+        .map((s, i) => ({ s, i }))
+        .filter(({ s }) => !s.endsWithGoal)
+        .map(({ i }) => i);
+      return defenseIds.every(i => starsByLevel[i] >= 2);
+    },
+  },
+  {
+    id: "playmaker",
+    name: "Playmaker",
+    icon: "🎯",
+    desc: "Complete all offensive scenarios with 2+ stars",
+    check: () => {
+      const offenseIds = SCENARIOS
+        .map((s, i) => ({ s, i }))
+        .filter(({ s }) => s.endsWithGoal)
+        .map(({ i }) => i);
+      return offenseIds.every(i => starsByLevel[i] >= 2);
+    },
+  },
+  {
+    id: "iron-player",
+    name: "Iron Player",
+    icon: "⭐",
+    desc: "Earn 3 stars on every scenario",
+    check: () => starsByLevel.every(s => s >= 3),
+  },
+  {
+    id: "quick-learner",
+    name: "Quick Learner",
+    icon: "⚡",
+    desc: "Get 5 first-try successes in a row",
+    check: () => {
+      let streak = 0;
+      for (let i = 0; i < starsByLevel.length; i++) {
+        if (starsByLevel[i] >= 3) { streak++; if (streak >= 5) return true; }
+        else streak = 0;
+      }
+      return false;
+    },
+  },
+];
+
+function getEarnedBadges() {
+  return BADGES.filter(b => b.check());
+}
+
 // ══════════════════════════════════════════════════════════════
 // AUDIO SYSTEM — Web Audio API
 // ══════════════════════════════════════════════════════════════
@@ -242,6 +320,36 @@ function showLevels() {
   const grid = document.getElementById("level-grid");
   grid.innerHTML = "";
 
+  // Quick Drill button — pick a random unlocked scenario
+  const quickDrillRow = document.createElement("div");
+  quickDrillRow.style.cssText = "grid-column: 1 / -1; text-align: center; margin-bottom: 1rem;";
+  const qdBtn = document.createElement("button");
+  qdBtn.className = "btn btn-play";
+  qdBtn.style.cssText = "font-size: 1.1rem; padding: 0.8rem 2rem;";
+  qdBtn.textContent = "Quick Drill";
+  qdBtn.addEventListener("click", () => {
+    const unlocked = SCENARIOS.map((s, i) => i).filter(i => canUnlock(SCENARIOS[i].tier));
+    if (unlocked.length > 0) {
+      loadLevel(unlocked[Math.floor(Math.random() * unlocked.length)]);
+    }
+  });
+  quickDrillRow.appendChild(qdBtn);
+  grid.appendChild(quickDrillRow);
+
+  // Show earned badges
+  const earned = getEarnedBadges();
+  if (earned.length > 0) {
+    const badgeRow = document.createElement("div");
+    badgeRow.style.cssText = "grid-column: 1 / -1; text-align: center; margin-bottom: 1rem; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;";
+    earned.forEach(b => {
+      const badge = document.createElement("div");
+      badge.style.cssText = "background: #fff; border-radius: 12px; padding: 0.5rem 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; font-weight: 600; color: #2d3436;";
+      badge.innerHTML = `<span style="font-size:1.3rem">${b.icon}</span> ${b.name}`;
+      badgeRow.appendChild(badge);
+    });
+    grid.appendChild(badgeRow);
+  }
+
   TIER_ORDER.forEach(tier => {
     const indices = scenariosForTier(tier);
     if (indices.length === 0) return;
@@ -363,7 +471,7 @@ function renderStarsHeader() {
 // ══════════ RENDER RINK ══════════
 function renderRink(scenario) {
   // Clear previous dynamic elements (players, target, puck anim)
-  rink.querySelectorAll(".player, .target-zone, .puck-anim").forEach(el => el.remove());
+  rink.querySelectorAll(".player, .target-zone, .puck-anim, .puck-trail, .goal-overlay").forEach(el => el.remove());
 
   const toast = document.getElementById("rink-toast");
   toast.classList.remove("show");
@@ -577,7 +685,79 @@ function animatePlaySequence(scenario) {
   puckEl.style.display = "block";
   puckEl.style.transition = "none"; // no transition for initial position
 
+  // Track puck positions for trail lines
+  let lastPuckX = puckPos.x;
+  let lastPuckY = puckPos.y;
+
+  // Create SVG overlay for puck trail lines
+  let trailSvg = document.getElementById("puck-trail-svg");
+  if (!trailSvg) {
+    trailSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    trailSvg.id = "puck-trail-svg";
+    trailSvg.setAttribute("class", "puck-trail");
+    trailSvg.setAttribute("viewBox", "0 0 100 100");
+    trailSvg.setAttribute("preserveAspectRatio", "none");
+    rink.appendChild(trailSvg);
+  }
+  trailSvg.innerHTML = "";
+  trailSvg.style.display = "block";
+
   scenario.playSequence.forEach(step => {
+    setTimeout(() => {
+      let el;
+      if (step.target === "puck") {
+        el = puckEl;
+
+        // Draw trail line from last puck position to new position
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", lastPuckX);
+        line.setAttribute("y1", lastPuckY);
+        line.setAttribute("x2", step.toX);
+        line.setAttribute("y2", step.toY);
+        line.setAttribute("class", "trail-line");
+        trailSvg.appendChild(line);
+
+        lastPuckX = step.toX;
+        lastPuckY = step.toY;
+      } else {
+        el = rink.querySelector(`[data-id="${step.target}"]`);
+      }
+      if (el) {
+        el.style.transition = "left 0.6s ease, top 0.6s ease";
+        el.style.left = step.toX + "%";
+        el.style.top = step.toY + "%";
+      }
+    }, step.delay);
+  });
+}
+
+// ══════════ FAIL ANIMATION ══════════
+// Shows what goes wrong when the kid is out of position
+function animateFailSequence(scenario) {
+  if (!scenario.failSequence || !scenario.failSequence.length) return;
+
+  // Remove has-puck indicators
+  rink.querySelectorAll(".player.has-puck").forEach(p => {
+    p.classList.remove("has-puck");
+    const icon = p.querySelector(".puck-icon");
+    if (icon) icon.remove();
+  });
+
+  // Create puck element at carrier position
+  const puckPos = getPuckPosition(scenario);
+  let puckEl = document.getElementById("anim-puck");
+  if (!puckEl) {
+    puckEl = document.createElement("div");
+    puckEl.id = "anim-puck";
+    puckEl.className = "puck-anim";
+    rink.appendChild(puckEl);
+  }
+  puckEl.style.left = puckPos.x + "%";
+  puckEl.style.top = puckPos.y + "%";
+  puckEl.style.display = "block";
+  puckEl.style.transition = "none";
+
+  scenario.failSequence.forEach(step => {
     setTimeout(() => {
       let el;
       if (step.target === "puck") {
@@ -592,6 +772,15 @@ function animatePlaySequence(scenario) {
       }
     }, step.delay);
   });
+
+  // After fail animation, reset players to original positions
+  const lastDelay = Math.max(...scenario.failSequence.map(s => s.delay));
+  setTimeout(() => {
+    puckEl.style.display = "none";
+    // Remove trail if any
+    const trail = document.getElementById("puck-trail-svg");
+    if (trail) trail.style.display = "none";
+  }, lastDelay + 1000);
 }
 
 // Compute when the last animation step finishes (delay + transition time)
@@ -660,6 +849,7 @@ function checkPosition() {
     else if (!hintRevealed && attempts <= 3) earned = 2;
 
     starsByLevel[currentLevel] = Math.max(starsByLevel[currentLevel], earned);
+    saveProgress();
     renderStarsHeader();
 
     // Animate stars in
@@ -731,6 +921,14 @@ function checkPosition() {
     }
 
     showToast(msg);
+
+    // After 2+ misses, show what goes wrong when you're out of position
+    if (attempts >= 2 && s.failSequence && s.failSequence.length > 0) {
+      setTimeout(() => {
+        showToast("See what happens...");
+        animateFailSequence(s);
+      }, 1500);
+    }
   }
 }
 

@@ -29,7 +29,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 50, y: 50 },
     target: { x: 28, y: 62, radius: 9 },
-    successText: "You got between the puck and your goal! That's how you stop the other team from getting an easy shot.",
+    successText: "You got between the puck and your goal — that takes away the passing lane to the net and forces them to the outside where it's harder to score.",
     hints: [
       "Think about where your net is (left side) and where the puck is...",
       "You need to be BETWEEN the puck and your net — closer to the left side!",
@@ -42,6 +42,12 @@ const SCENARIOS = [
       { target: "puck", toX: 50, toY: 40, delay: 1000 },
       { target: "team-C", toX: 55, toY: 38, delay: 1200 },
       { target: "puck", toX: 75, toY: 30, delay: 1600 },
+    ],
+    failSequence: [
+      { target: "opp-LW", toX: 28, toY: 60, delay: 0 },
+      { target: "puck", toX: 28, toY: 55, delay: 400 },
+      { target: "opp-C", toX: 22, toY: 52, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -68,7 +74,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 50, y: 75 },
     target: { x: 72, y: 38, radius: 10 },
-    successText: "Great spot! You found open ice away from the defenders where your teammate can see you and pass the puck.",
+    successText: "You found the open ice! When you're away from defenders but still in your teammate's line of sight, they can hit you with a quick pass before the defense can react.",
     hints: [
       "Look for space on the ice where no orange defenders are standing...",
       "There's open ice near the far side of the offensive zone — away from the defenders!",
@@ -80,6 +86,12 @@ const SCENARIOS = [
       { target: "you", toX: 78, toY: 35, delay: 500 },
       { target: "puck", toX: 85, toY: 45, delay: 1000 },
       { target: "puck", toX: 90, toY: 50, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "team-LW", toX: 68, toY: 72, delay: 0 },
+      { target: "puck", toX: 68, toY: 72, delay: 400 },
+      { target: "opp-RD", toX: 68, toY: 65, delay: 400 },
+      { target: "puck", toX: 50, toY: 50, delay: 800 },
     ],
   },
 
@@ -106,7 +118,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 20, y: 80 },
     target: { x: 28, y: 18, radius: 9 },
-    successText: "Perfect wing position! You're along the boards on your side, ready for the breakout pass.",
+    successText: "You're at the boards on your wing — that's the perfect breakout spot because it stretches the defense wide and gives your D-man a safe pass along the boards to move the puck out of your zone.",
     hints: [
       "Wings go to the boards on their side, not behind the net...",
       "Skate up near the boards on the top side — between the circles and the blue line!",
@@ -118,6 +130,12 @@ const SCENARIOS = [
       { target: "puck", toX: 50, toY: 15, delay: 800 },
       { target: "you", toX: 55, toY: 18, delay: 1200 },
       { target: "puck", toX: 70, toY: 20, delay: 1600 },
+    ],
+    failSequence: [
+      { target: "opp-RW", toX: 20, toY: 35, delay: 0 },
+      { target: "puck", toX: 20, toY: 35, delay: 400 },
+      { target: "opp-C", toX: 25, toY: 48, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -144,7 +162,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 30, y: 45 },
     target: { x: 48, y: 22, radius: 10 },
-    successText: "Great support! You're close enough to receive a pass but far enough that one defender can't cover both of you.",
+    successText: "You kept good spacing — one pass-length away on the opposite side! That forces the defense to spread out, and if they cheat toward the puck carrier, you're wide open.",
     hints: [
       "Don't skate right next to your teammate — spread out! Think about where the defenders AREN'T...",
       "Try the other side of the ice from the defender, keeping up with the puck carrier!",
@@ -156,6 +174,12 @@ const SCENARIOS = [
       { target: "puck", toX: 65, toY: 18, delay: 800 },
       { target: "you", toX: 72, toY: 20, delay: 1200 },
       { target: "puck", toX: 85, toY: 30, delay: 1600 },
+    ],
+    failSequence: [
+      { target: "opp-C", toX: 52, toY: 48, delay: 0 },
+      { target: "puck", toX: 52, toY: 48, delay: 400 },
+      { target: "opp-C", toX: 30, toY: 45, delay: 600 },
+      { target: "puck", toX: 10, toY: 50, delay: 1000 },
     ],
   },
 
@@ -182,7 +206,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 40, y: 25 },
     target: { x: 26, y: 78, radius: 8 },
-    successText: "Right where you need to be! You're on your side near the circle, ready to jump on the puck.",
+    successText: "You lined up at the face-off circle on your side — that means you can jump on a loose puck right away or tie up the opponent's winger so they can't get a quick shot.",
     hints: [
       "For a face-off, you line up near the face-off circle on your side of the ice...",
       "The puck is at the bottom face-off dot — you're the winger on that side, get close to it!",
@@ -195,6 +219,12 @@ const SCENARIOS = [
       { target: "puck", toX: 28, toY: 80, delay: 700 },
       { target: "puck", toX: 50, toY: 50, delay: 1100 },
       { target: "team-C", toX: 55, toY: 45, delay: 1300 },
+    ],
+    failSequence: [
+      { target: "opp-RW", toX: 28, toY: 75, delay: 0 },
+      { target: "puck", toX: 28, toY: 75, delay: 400 },
+      { target: "puck", toX: 18, toY: 55, delay: 800 },
+      { target: "puck", toX: 10, toY: 50, delay: 1200 },
     ],
   },
 
@@ -221,7 +251,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 55, y: 50 },
     target: { x: 72, y: 50, radius: 9 },
-    successText: "You completed the triangle! Now your team has three passing options and it's really hard for the defense to cover everyone.",
+    successText: "You completed the triangle! A triangle gives your team three short passing options in every direction, so the defense can never take them all away at once.",
     hints: [
       "Look at where your two teammates are — what shape could three players make?",
       "Your teammates are low-left and low-right... the triangle point goes higher up, near the blue line area!",
@@ -234,6 +264,12 @@ const SCENARIOS = [
       { target: "puck", toX: 78, toY: 32, delay: 800 },
       { target: "team-LW", toX: 82, toY: 30, delay: 1000 },
       { target: "puck", toX: 90, toY: 50, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-C", toX: 72, toY: 55, delay: 0 },
+      { target: "puck", toX: 72, toY: 55, delay: 400 },
+      { target: "opp-C", toX: 60, toY: 50, delay: 600 },
+      { target: "puck", toX: 50, toY: 50, delay: 1000 },
     ],
   },
 
@@ -260,7 +296,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 65, y: 35 },
     target: { x: 33, y: 55, radius: 9 },
-    successText: "Amazing hustle! You got back between the attackers and your goal. That's what back-checking is all about!",
+    successText: "You hustled back and picked up the extra attacker! Back-checking takes away their numbers advantage and gives your defense time to get set up.",
     hints: [
       "Back-check means skating BACK towards your own net — don't stay up high!",
       "Get between the orange players and your goal (left side). Hustle back!",
@@ -273,6 +309,12 @@ const SCENARIOS = [
       { target: "you", toX: 40, toY: 48, delay: 800 },
       { target: "puck", toX: 55, toY: 35, delay: 1200 },
       { target: "team-LW", toX: 65, toY: 25, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-LW", toX: 30, toY: 42, delay: 0 },
+      { target: "puck", toX: 25, toY: 55, delay: 400 },
+      { target: "opp-C", toX: 20, toY: 52, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -299,7 +341,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 15, y: 80 },
     target: { x: 25, y: 50, radius: 9 },
-    successText: "You found the middle lane! Now your D can pass it right up the center of the ice.",
+    successText: "You found the middle lane! Centers go up the middle on breakouts because it opens up passes to both wings and keeps the puck away from the dangerous boards.",
     hints: [
       "Centers go to the MIDDLE of the ice during a breakout, not the boards...",
       "Skate to the center of the ice between the face-off circles — right in the middle!",
@@ -311,6 +353,12 @@ const SCENARIOS = [
       { target: "puck", toX: 50, toY: 45, delay: 800 },
       { target: "you", toX: 55, toY: 45, delay: 1200 },
       { target: "puck", toX: 70, toY: 40, delay: 1600 },
+    ],
+    failSequence: [
+      { target: "opp-C", toX: 22, toY: 48, delay: 0 },
+      { target: "puck", toX: 22, toY: 48, delay: 400 },
+      { target: "opp-LW", toX: 20, toY: 42, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -341,7 +389,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 30, y: 70 },
     target: { x: 22, y: 50, radius: 8 },
-    successText: "You're protecting the slot! Even though the puck is in the corner, the most dangerous pass goes to the slot. You took that away!",
+    successText: "You're protecting the slot — that's where most goals are scored! Even though the puck is in the corner, you took away the pass to the most dangerous spot on the ice.",
     hints: [
       "Where do most goals get scored? Right in front of the net...",
       "The slot is the area right in front of your net — stand between the face-off dots, facing the puck!",
@@ -354,6 +402,12 @@ const SCENARIOS = [
       { target: "puck", toX: 35, toY: 40, delay: 800 },
       { target: "team-C", toX: 45, toY: 35, delay: 1000 },
       { target: "puck", toX: 65, toY: 25, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-RW", toX: 18, toY: 78, delay: 0 },
+      { target: "puck", toX: 25, toY: 55, delay: 400 },
+      { target: "opp-C", toX: 22, toY: 52, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -380,7 +434,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 80, y: 20 },
     target: { x: 68, y: 25, radius: 9 },
-    successText: "Perfect half-wall position! Your teammate behind the net can send it up to you, and you have options to shoot or pass.",
+    successText: "You're at the half-wall — that's the perfect spot because you can see the whole zone, receive a pass from behind the net, and either shoot or pass to the slot.",
     hints: [
       "When a teammate is behind the net, they need someone on the boards halfway up the zone...",
       "Get to the half-wall — that's the boards area about halfway between the goal line and the blue line on your side!",
@@ -393,6 +447,12 @@ const SCENARIOS = [
       { target: "puck", toX: 75, toY: 40, delay: 800 },
       { target: "puck", toX: 82, toY: 48, delay: 1200 },
       { target: "puck", toX: 90, toY: 50, delay: 1600 },
+    ],
+    failSequence: [
+      { target: "opp-LD", toX: 82, toY: 45, delay: 0 },
+      { target: "puck", toX: 82, toY: 45, delay: 400 },
+      { target: "opp-LD", toX: 70, toY: 40, delay: 600 },
+      { target: "puck", toX: 55, toY: 50, delay: 1000 },
     ],
   },
 
@@ -419,7 +479,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 35, y: 50 },
     target: { x: 25, y: 25, radius: 9 },
-    successText: "Great weak-side lock! You're covering your side of the ice, taking away the dangerous cross-ice pass. Smart defense!",
+    successText: "You locked down the weak side! Cross-ice passes are the most dangerous ones because they make the goalie slide all the way across. By being there, you took that play away completely.",
     hints: [
       "The puck is on the bottom side — where should you be to stop a pass to the top side?",
       "Stay on your side (the top) near the boards, between the face-off circle and the blue line, to cut off that cross-ice pass!",
@@ -431,6 +491,12 @@ const SCENARIOS = [
       { target: "you", toX: 23, toY: 22, delay: 400 },
       { target: "puck", toX: 25, toY: 25, delay: 600 },
       { target: "puck", toX: 15, toY: 50, delay: 1000 },
+    ],
+    failSequence: [
+      { target: "opp-RW", toX: 18, toY: 80, delay: 0 },
+      { target: "puck", toX: 22, toY: 20, delay: 400 },
+      { target: "opp-LW", toX: 18, toY: 22, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -457,7 +523,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 78, y: 50 },
     target: { x: 65, y: 50, radius: 9 },
-    successText: "You're the high option! If the play down low gets stuck, your teammates can cycle the puck back to you and you can reset the attack or take a shot.",
+    successText: "You stayed high near the blue line — that makes you the safety valve! When things get crowded down low, your teammates can pass back to you to reset, and you also keep the puck from leaving the zone.",
     hints: [
       "Don't crowd down low with everyone else. Someone needs to stay high...",
       "Stay near the blue line, in the middle of the ice — you're the safety valve if things get tight down low!",
@@ -470,6 +536,12 @@ const SCENARIOS = [
       { target: "puck", toX: 80, toY: 30, delay: 800 },
       { target: "team-LW", toX: 82, toY: 35, delay: 1000 },
       { target: "puck", toX: 90, toY: 50, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-C", toX: 70, toY: 48, delay: 0 },
+      { target: "puck", toX: 70, toY: 48, delay: 400 },
+      { target: "opp-C", toX: 55, toY: 45, delay: 600 },
+      { target: "puck", toX: 50, toY: 50, delay: 1000 },
     ],
   },
 
@@ -496,7 +568,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 50, y: 25 },
     target: { x: 68, y: 20, radius: 9 },
-    successText: "Great pinch! You stepped up to keep the puck in the zone. That keeps your team on offense!",
+    successText: "Great pinch! By stepping up along the boards, you kept the puck in the offensive zone. Every extra second in their zone is another chance to score.",
     hints: [
       "The puck is about to leave your offensive zone. Can you get there to keep it in?",
       "Skate forward along the boards toward the puck — pinch down to the blue line area on your side!",
@@ -508,6 +580,12 @@ const SCENARIOS = [
       { target: "puck", toX: 78, toY: 50, delay: 600 },
       { target: "team-C", toX: 80, toY: 48, delay: 800 },
       { target: "puck", toX: 86, toY: 50, delay: 1200 },
+    ],
+    failSequence: [
+      { target: "opp-RW", toX: 60, toY: 20, delay: 0 },
+      { target: "puck", toX: 50, toY: 25, delay: 400 },
+      { target: "opp-C", toX: 35, toY: 40, delay: 600 },
+      { target: "puck", toX: 10, toY: 50, delay: 1000 },
     ],
   },
 
@@ -533,7 +611,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 70, y: 50 },
     target: { x: 82, y: 50, radius: 8 },
-    successText: "You're planted in front of the net! This is where the dirty goals happen — tips, rebounds, and screens. The goalie can't see the puck with you there!",
+    successText: "You planted yourself in front of the net — that's where the ugly goals happen! You block the goalie's view so they can't see the shot coming, and if the puck bounces off the pads, you're right there for the rebound.",
     hints: [
       "Where should you stand to tip a shot or grab a rebound?",
       "Get right in front of the opponent's net — as close as you can! That's where rebounds and tips happen!",
@@ -547,6 +625,12 @@ const SCENARIOS = [
       { target: "puck", toX: 82, toY: 50, delay: 800 },
       { target: "you", toX: 84, toY: 48, delay: 1000 },
       { target: "puck", toX: 90, toY: 50, delay: 1200 },
+    ],
+    failSequence: [
+      { target: "opp-LD", toX: 80, toY: 38, delay: 0 },
+      { target: "puck", toX: 80, toY: 38, delay: 400 },
+      { target: "opp-LD", toX: 65, toY: 35, delay: 600 },
+      { target: "puck", toX: 50, toY: 50, delay: 1000 },
     ],
   },
 
@@ -573,7 +657,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 55, y: 40 },
     target: { x: 72, y: 20, radius: 9 },
-    successText: "You drove wide! Now the defense has to choose: cover you or the puck carrier. Either way, someone is open!",
+    successText: "You drove wide to your wing! By stretching the defense apart, you force them to pick who to cover. If they follow you, the middle opens up — if they stay inside, you're free for a pass.",
     hints: [
       "Don't follow your teammate. Go to a different lane — spread the defense out...",
       "Drive wide toward the boards on your side and get ahead of the puck — make the defense choose who to cover!",
@@ -586,6 +670,12 @@ const SCENARIOS = [
       { target: "you", toX: 78, toY: 22, delay: 600 },
       { target: "puck", toX: 82, toY: 35, delay: 1000 },
       { target: "puck", toX: 90, toY: 50, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-LD", toX: 65, toY: 38, delay: 0 },
+      { target: "puck", toX: 65, toY: 38, delay: 400 },
+      { target: "opp-LD", toX: 55, toY: 40, delay: 600 },
+      { target: "puck", toX: 50, toY: 50, delay: 1000 },
     ],
   },
 
@@ -611,7 +701,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 35, y: 55 },
     target: { x: 25, y: 62, radius: 8 },
-    successText: "You completed the box! Your four players are protecting the slot area in a box shape. This is the best way to kill a penalty!",
+    successText: "You completed the box! The box shape blocks all the passing lanes into the slot, so the power play has to pass around the outside where shots are weaker and easier for your goalie to see.",
     hints: [
       "Look at where your three teammates are — they're forming three corners of a box...",
       "You need to be at the bottom-right corner of the box — in front of your net on the bottom side!",
@@ -624,6 +714,12 @@ const SCENARIOS = [
       { target: "puck", toX: 40, toY: 30, delay: 800 },
       { target: "team-C", toX: 50, toY: 40, delay: 1000 },
       { target: "puck", toX: 70, toY: 35, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-LD", toX: 30, toY: 22, delay: 0 },
+      { target: "puck", toX: 28, toY: 50, delay: 400 },
+      { target: "opp-C", toX: 22, toY: 50, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -654,7 +750,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 35, y: 40 },
     target: { x: 28, y: 60, radius: 9 },
-    successText: "You took away the pass! The puck carrier has to shoot from a tough angle, and your goalie has a way better chance to save it. That's textbook 2-on-1 defense!",
+    successText: "You took away the pass and forced the shot! Your goalie can handle a shooter they can see, but a cross-crease pass is almost impossible to stop. You made their 2-on-1 into a 1-on-1 against the goalie.",
     hints: [
       "Don't rush at the puck carrier — think about the pass they want to make...",
       "Get between the two attackers, closer to the pass receiver. Your goalie handles the shooter!",
@@ -666,6 +762,12 @@ const SCENARIOS = [
       { target: "puck", toX: 25, toY: 60, delay: 600 },
       { target: "puck", toX: 50, toY: 50, delay: 1000 },
       { target: "team-C", toX: 60, toY: 40, delay: 1200 },
+    ],
+    failSequence: [
+      { target: "opp-C", toX: 28, toY: 42, delay: 0 },
+      { target: "puck", toX: 25, toY: 65, delay: 400 },
+      { target: "opp-RW", toX: 20, toY: 62, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -692,7 +794,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 35, y: 50 },
     target: { x: 30, y: 75, radius: 9 },
-    successText: "You stayed wide and gave your teammate a clear passing lane! The defenseman can't cover both of you. That's how you score on a 2-on-1!",
+    successText: "You stayed wide and created a clear passing lane! The defenseman can only cover one of you, so your teammate can either pass to you for an easy shot or keep it if the D cheats your way.",
     hints: [
       "Don't skate right next to the puck carrier — spread out wide...",
       "Stay on the opposite side from the defenseman, wide near the boards. Give your teammate a clear pass!",
@@ -707,6 +809,12 @@ const SCENARIOS = [
       { target: "team-C", toX: 55, toY: 35, delay: 1000 },
       { target: "puck", toX: 70, toY: 30, delay: 1400 },
       { target: "puck", toX: 90, toY: 50, delay: 1800 },
+    ],
+    failSequence: [
+      { target: "opp-LD", toX: 25, toY: 52, delay: 0 },
+      { target: "puck", toX: 25, toY: 52, delay: 400 },
+      { target: "opp-LD", toX: 40, toY: 48, delay: 600 },
+      { target: "puck", toX: 50, toY: 50, delay: 1000 },
     ],
   },
 
@@ -733,7 +841,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 55, y: 30 },
     target: { x: 75, y: 22, radius: 9 },
-    successText: "You drove wide and hard to the net! The two defenders are overwhelmed — your team has numbers. Someone is going to be wide open!",
+    successText: "You filled the wide lane! On a 3-on-2, three forwards fill three lanes — left, middle, right. Two defenders can only cover two lanes, so one of you is always open.",
     hints: [
       "You're the wide player — push up the ice on your side, don't float in the middle...",
       "Drive to the net from your wing! Get to the top side near the net — the defenders can't cover three lanes!",
@@ -747,6 +855,12 @@ const SCENARIOS = [
       { target: "puck", toX: 75, toY: 22, delay: 800 },
       { target: "puck", toX: 85, toY: 40, delay: 1200 },
       { target: "puck", toX: 90, toY: 50, delay: 1600 },
+    ],
+    failSequence: [
+      { target: "opp-LD", toX: 65, toY: 35, delay: 0 },
+      { target: "puck", toX: 65, toY: 35, delay: 400 },
+      { target: "opp-LD", toX: 55, toY: 40, delay: 600 },
+      { target: "puck", toX: 50, toY: 50, delay: 1000 },
     ],
   },
 
@@ -772,7 +886,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 55, y: 40 },
     target: { x: 65, y: 25, radius: 9 },
-    successText: "You're at the point! From here you can see the whole zone and take a big slap shot or pass to your teammates. The umbrella power play is all about that top position!",
+    successText: "You're at the point — the top of the umbrella! From here the penalty killers are below you, so you can see every teammate and pick the best pass. You also keep the puck from leaving the zone.",
     hints: [
       "The point man stays HIGH, near the blue line — don't go too deep into the zone...",
       "Get to the blue line area on your side (top of the zone). That's the top of the umbrella shape!",
@@ -785,6 +899,12 @@ const SCENARIOS = [
       { target: "puck", toX: 80, toY: 30, delay: 800 },
       { target: "team-LW", toX: 82, toY: 32, delay: 1000 },
       { target: "puck", toX: 90, toY: 50, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-C", toX: 68, toY: 45, delay: 0 },
+      { target: "puck", toX: 68, toY: 45, delay: 400 },
+      { target: "opp-C", toX: 55, toY: 42, delay: 600 },
+      { target: "puck", toX: 50, toY: 50, delay: 1000 },
     ],
   },
 
@@ -810,7 +930,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 40, y: 50 },
     target: { x: 62, y: 30, radius: 8 },
-    successText: "You pressured the point! Now they can't take an easy shot and have to rush their pass. Aggressive penalty killing is the best penalty killing!",
+    successText: "You pressured the point man! By getting in his face, you took away his time to aim a shot or make a good pass. Rushed passes on the power play lead to turnovers.",
     hints: [
       "Don't just stand back — go get the player with the puck!",
       "Skate out toward the opponent with the puck at the point. Pressure them so they can't get a clean shot!",
@@ -823,6 +943,12 @@ const SCENARIOS = [
       { target: "you", toX: 55, toY: 35, delay: 800 },
       { target: "puck", toX: 50, toY: 40, delay: 1000 },
       { target: "puck", toX: 75, toY: 30, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-LD", toX: 55, toY: 30, delay: 0 },
+      { target: "puck", toX: 30, toY: 50, delay: 400 },
+      { target: "opp-C", toX: 22, toY: 48, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -849,7 +975,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 70, y: 20 },
     target: { x: 82, y: 30, radius: 8 },
-    successText: "Great angle! You cut off the middle and forced the puck carrier to the boards. Now your teammates can finish the forecheck and trap them!",
+    successText: "Great angle! By cutting off the middle of the ice, you forced the puck carrier to the boards where they have fewer options. Your teammates can now close in and trap them along the wall.",
     hints: [
       "Don't skate straight at the puck carrier — take an angle to cut off the middle of the ice...",
       "Approach from the inside (middle) so you push them toward the boards. You want to be between them and center ice!",
@@ -863,6 +989,12 @@ const SCENARIOS = [
       { target: "puck", toX: 75, toY: 30, delay: 800 },
       { target: "puck", toX: 82, toY: 48, delay: 1200 },
       { target: "puck", toX: 90, toY: 50, delay: 1600 },
+    ],
+    failSequence: [
+      { target: "opp-LD", toX: 82, toY: 30, delay: 0 },
+      { target: "puck", toX: 75, toY: 40, delay: 400 },
+      { target: "opp-C", toX: 65, toY: 45, delay: 400 },
+      { target: "puck", toX: 50, toY: 50, delay: 800 },
     ],
   },
 
@@ -889,7 +1021,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 65, y: 45 },
     target: { x: 78, y: 50, radius: 9 },
-    successText: "You cut off the D-to-D pass! Now the puck carrier is stuck on the boards with no easy outlet. Your team can force a turnover!",
+    successText: "You cut off the D-to-D pass! When a defenseman can't pass to their partner, they're trapped on the boards with pressure coming. That's how you force turnovers in the offensive zone.",
     hints: [
       "F2 doesn't chase the puck — F2 takes away the escape pass...",
       "Get between the two defensemen (the one with the puck and the other one). Don't let them pass across!",
@@ -903,6 +1035,12 @@ const SCENARIOS = [
       { target: "puck", toX: 80, toY: 48, delay: 800 },
       { target: "you", toX: 82, toY: 45, delay: 1000 },
       { target: "puck", toX: 90, toY: 50, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-LD", toX: 82, toY: 22, delay: 0 },
+      { target: "puck", toX: 82, toY: 65, delay: 400 },
+      { target: "opp-RD", toX: 75, toY: 60, delay: 400 },
+      { target: "puck", toX: 55, toY: 50, delay: 800 },
     ],
   },
 
@@ -929,7 +1067,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 25, y: 60 },
     target: { x: 18, y: 40, radius: 8 },
-    successText: "You rotated over! Your partner got beat but you filled in and protected the front of the net. That's what great defensive partners do — they cover for each other!",
+    successText: "You rotated over to cover for your partner! Sliding across to fill the gap in front of the net means the attackers can't get an easy shot. Great D-partners always have each other's backs.",
     hints: [
       "Your partner is out of position — who's going to cover the front of the net?",
       "Slide over toward the net to cover the area your partner left open. Get between the attackers and the goal!",
@@ -942,6 +1080,12 @@ const SCENARIOS = [
       { target: "you", toX: 25, toY: 40, delay: 800 },
       { target: "puck", toX: 45, toY: 35, delay: 1200 },
       { target: "team-C", toX: 60, toY: 30, delay: 1400 },
+    ],
+    failSequence: [
+      { target: "opp-RW", toX: 18, toY: 30, delay: 0 },
+      { target: "puck", toX: 20, toY: 50, delay: 400 },
+      { target: "opp-C", toX: 18, toY: 48, delay: 400 },
+      { target: "puck", toX: 10, toY: 50, delay: 800 },
     ],
   },
 
@@ -968,7 +1112,7 @@ const SCENARIOS = [
     ],
     youStart: { x: 55, y: 50 },
     target: { x: 40, y: 50, radius: 9 },
-    successText: "Smart regroup! You came back to support the play. Now your defenseman has a safe pass and your team can reorganize. Sometimes going backward is the smartest play!",
+    successText: "Smart regroup! By skating back, you gave your D-man a safe pass option. Sometimes going backward opens up the ice ahead of you, because the other team's forwards chase up and leave space behind them.",
     hints: [
       "The neutral zone is clogged. Sometimes the best play is to come back and reset...",
       "Skate back toward your own zone to give the puck carrier a safe pass option. Regroup and try again!",
@@ -981,6 +1125,12 @@ const SCENARIOS = [
       { target: "puck", toX: 55, toY: 22, delay: 1000 },
       { target: "team-LW", toX: 68, toY: 25, delay: 1200 },
       { target: "puck", toX: 75, toY: 30, delay: 1600 },
+    ],
+    failSequence: [
+      { target: "opp-C", toX: 50, toY: 40, delay: 0 },
+      { target: "puck", toX: 50, toY: 40, delay: 400 },
+      { target: "opp-LW", toX: 30, toY: 35, delay: 600 },
+      { target: "puck", toX: 10, toY: 50, delay: 1000 },
     ],
   },
 
