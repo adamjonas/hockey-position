@@ -959,9 +959,9 @@ function showFeedback(scenario) {
   const isLastInTier = posInTier === tierIndices.length - 1;
 
   if (isLastInTier) {
-    document.getElementById("fb-next").textContent = "Tier Complete!";
+    document.getElementById("fb-next").innerHTML = 'Tier Complete! <kbd>enter</kbd>';
   } else {
-    document.getElementById("fb-next").textContent = "Next Challenge";
+    document.getElementById("fb-next").innerHTML = 'Next Challenge <kbd>enter</kbd>';
   }
 
   document.getElementById("feedback-overlay").classList.add("show");
