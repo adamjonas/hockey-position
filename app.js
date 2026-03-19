@@ -533,19 +533,32 @@ function animatePlaySequence(scenario) {
   // Show a toast when animation starts
   showToast("Watch the play!");
 
+  // Remove the has-puck indicator from all players so there's only one puck
+  rink.querySelectorAll(".player.has-puck").forEach(p => {
+    p.classList.remove("has-puck");
+    const icon = p.querySelector(".puck-icon");
+    if (icon) icon.remove();
+  });
+
+  // Create puck animation element starting at the current puck carrier's position
+  const puckPos = getPuckPosition(scenario);
+  let puckEl = document.getElementById("anim-puck");
+  if (!puckEl) {
+    puckEl = document.createElement("div");
+    puckEl.id = "anim-puck";
+    puckEl.className = "puck-anim";
+    rink.appendChild(puckEl);
+  }
+  puckEl.style.left = puckPos.x + "%";
+  puckEl.style.top = puckPos.y + "%";
+  puckEl.style.display = "block";
+  puckEl.style.transition = "none"; // no transition for initial position
+
   scenario.playSequence.forEach(step => {
     setTimeout(() => {
       let el;
       if (step.target === "puck") {
-        // Create or find a puck animation element
-        el = document.getElementById("anim-puck");
-        if (!el) {
-          el = document.createElement("div");
-          el.id = "anim-puck";
-          el.className = "puck-anim";
-          rink.appendChild(el);
-        }
-        el.style.display = "block";
+        el = puckEl;
       } else {
         el = rink.querySelector(`[data-id="${step.target}"]`);
       }
