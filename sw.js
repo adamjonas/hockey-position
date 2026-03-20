@@ -1,5 +1,5 @@
 // Hockey Position Hero — Service Worker
-const CACHE_NAME = 'hockey-hero-v8';
+const CACHE_NAME = 'hockey-hero-v9';
 const ASSETS = [
   './',
   'index.html',

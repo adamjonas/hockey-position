@@ -662,92 +662,27 @@ function updateMeter(dist) {
 //
 //  "puck" creates or finds #anim-puck, a separate visual element.
 //
-function animatePlaySequence(scenario) {
-  if (!scenario.playSequence || !scenario.playSequence.length) return;
+// ══════════ SHARED ANIMATION ENGINE ══════════
+// Used by both play and fail animations to avoid duplication.
+//
+//  animateSequence(scenario, steps, opts)
+//    opts.drawTrail  — draw SVG puck trail lines (play only)
+//    opts.toast      — show a toast message at start
+//    opts.hideAfter  — hide puck after animation (fail only)
+//
+function animateSequence(scenario, steps, opts) {
+  if (!steps || !steps.length) return;
 
-  // Show a toast when animation starts
-  showToast("Watch the play!");
+  if (opts.toast) showToast(opts.toast);
 
-  // Remove the has-puck indicator from all players so there's only one puck
+  // Remove has-puck indicator from all players so there's only one puck
   rink.querySelectorAll(".player.has-puck").forEach(p => {
     p.classList.remove("has-puck");
     const icon = p.querySelector(".puck-icon");
     if (icon) icon.remove();
   });
 
-  // Create puck animation element starting at the current puck carrier's position
-  const puckPos = getPuckPosition(scenario);
-  let puckEl = document.getElementById("anim-puck");
-  if (!puckEl) {
-    puckEl = document.createElement("div");
-    puckEl.id = "anim-puck";
-    puckEl.className = "puck-anim";
-    rink.appendChild(puckEl);
-  }
-  puckEl.style.left = puckPos.x + "%";
-  puckEl.style.top = puckPos.y + "%";
-  puckEl.style.display = "block";
-  puckEl.style.transition = "none"; // no transition for initial position
-
-  // Track puck positions for trail lines
-  let lastPuckX = puckPos.x;
-  let lastPuckY = puckPos.y;
-
-  // Create SVG overlay for puck trail lines
-  let trailSvg = document.getElementById("puck-trail-svg");
-  if (!trailSvg) {
-    trailSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    trailSvg.id = "puck-trail-svg";
-    trailSvg.setAttribute("class", "puck-trail");
-    trailSvg.setAttribute("viewBox", "0 0 100 100");
-    trailSvg.setAttribute("preserveAspectRatio", "none");
-    rink.appendChild(trailSvg);
-  }
-  trailSvg.innerHTML = "";
-  trailSvg.style.display = "block";
-
-  scenario.playSequence.forEach(step => {
-    setTimeout(() => {
-      let el;
-      if (step.target === "puck") {
-        el = puckEl;
-
-        // Draw trail line from last puck position to new position
-        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", lastPuckX);
-        line.setAttribute("y1", lastPuckY);
-        line.setAttribute("x2", step.toX);
-        line.setAttribute("y2", step.toY);
-        line.setAttribute("class", "trail-line");
-        trailSvg.appendChild(line);
-
-        lastPuckX = step.toX;
-        lastPuckY = step.toY;
-      } else {
-        el = rink.querySelector(`[data-id="${step.target}"]`);
-      }
-      if (el) {
-        el.style.transition = "left 0.6s ease, top 0.6s ease";
-        el.style.left = step.toX + "%";
-        el.style.top = step.toY + "%";
-      }
-    }, step.delay);
-  });
-}
-
-// ══════════ FAIL ANIMATION ══════════
-// Shows what goes wrong when the kid is out of position
-function animateFailSequence(scenario) {
-  if (!scenario.failSequence || !scenario.failSequence.length) return;
-
-  // Remove has-puck indicators
-  rink.querySelectorAll(".player.has-puck").forEach(p => {
-    p.classList.remove("has-puck");
-    const icon = p.querySelector(".puck-icon");
-    if (icon) icon.remove();
-  });
-
-  // Create puck element at carrier position
+  // Create puck animation element at the current puck carrier's position
   const puckPos = getPuckPosition(scenario);
   let puckEl = document.getElementById("anim-puck");
   if (!puckEl) {
@@ -761,11 +696,43 @@ function animateFailSequence(scenario) {
   puckEl.style.display = "block";
   puckEl.style.transition = "none";
 
-  scenario.failSequence.forEach(step => {
+  // Trail line setup (play animation only)
+  let lastPuckX = puckPos.x;
+  let lastPuckY = puckPos.y;
+  let trailSvg = null;
+
+  if (opts.drawTrail) {
+    trailSvg = document.getElementById("puck-trail-svg");
+    if (!trailSvg) {
+      trailSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      trailSvg.id = "puck-trail-svg";
+      trailSvg.setAttribute("class", "puck-trail");
+      trailSvg.setAttribute("viewBox", "0 0 100 100");
+      trailSvg.setAttribute("preserveAspectRatio", "none");
+      rink.appendChild(trailSvg);
+    }
+    trailSvg.innerHTML = "";
+    trailSvg.style.display = "block";
+  }
+
+  steps.forEach(step => {
     setTimeout(() => {
       let el;
       if (step.target === "puck") {
         el = puckEl;
+
+        // Draw trail line if enabled
+        if (trailSvg) {
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", lastPuckX);
+          line.setAttribute("y1", lastPuckY);
+          line.setAttribute("x2", step.toX);
+          line.setAttribute("y2", step.toY);
+          line.setAttribute("class", "trail-line");
+          trailSvg.appendChild(line);
+          lastPuckX = step.toX;
+          lastPuckY = step.toY;
+        }
       } else {
         el = rink.querySelector(`[data-id="${step.target}"]`);
       }
@@ -777,14 +744,31 @@ function animateFailSequence(scenario) {
     }, step.delay);
   });
 
-  // After fail animation, reset players to original positions
-  const lastDelay = Math.max(...scenario.failSequence.map(s => s.delay));
-  setTimeout(() => {
-    puckEl.style.display = "none";
-    // Remove trail if any
-    const trail = document.getElementById("puck-trail-svg");
-    if (trail) trail.style.display = "none";
-  }, lastDelay + 1000);
+  // Clean up after fail animation
+  if (opts.hideAfter) {
+    const lastDelay = Math.max(...steps.map(s => s.delay));
+    setTimeout(() => {
+      puckEl.style.display = "none";
+      const trail = document.getElementById("puck-trail-svg");
+      if (trail) trail.style.display = "none";
+    }, lastDelay + 1000);
+  }
+}
+
+function animatePlaySequence(scenario) {
+  animateSequence(scenario, scenario.playSequence, {
+    drawTrail: true,
+    toast: "Watch the play!",
+    hideAfter: false,
+  });
+}
+
+function animateFailSequence(scenario) {
+  animateSequence(scenario, scenario.failSequence, {
+    drawTrail: false,
+    toast: null,
+    hideAfter: true,
+  });
 }
 
 // Compute when the last animation step finishes (delay + transition time)
